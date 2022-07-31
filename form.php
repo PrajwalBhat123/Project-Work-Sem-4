@@ -7,7 +7,7 @@
     <title>Create Player</title>
 </head>
 <body>
-    <form action="createPlayer.php" method="post">
+    <form action="form.php" method="post">
         <div class="input-field">
             <input type="text" name="playername" placeholder="Enter name" required>
             <i class="uil uil-user"></i>
@@ -33,10 +33,44 @@
         </div>
     </form>
     <?php
-        require_once('authentication.php');
-        $user = $_SESSION['$username'];
-        $_SESSION['$user'] = $user;
-        echo $user;
+        error_reporting(0);
+        if($_SERVER['REQUEST_METHOD'] == "POST"){
+            require_once('index.php');
+            require_once('authentication.php');
+            $user = $_SESSION['username'];
+            $playername = $_POST['playername'];
+            $playertype = $_POST['playertype'];
+            $playercountry = $_POST['playercountry'];
+            $playercost = $_POST['playercost'];
+            $playerscore = $_POST['playerscore'];
+            $playerrating = $_POST['playerrating'];
+            if(empty($user)){
+                echo ' Username not transfered';
+                return;
+            }else{
+                echo $user;
+            }
+            echo 'Player ready to create';
+            $countryid = "select countryId from country where countryname = '$playercountry'";
+            $idresult = mysqli_query($con,$countryid);
+            $row = mysqli_fetch_array($idresult);
+            $country = $row['countryId'];
+            echo '    ';
+            echo $row['countryId'];
+            
+            if($playertype == 'shooter'){
+                $sql = "INSERT INTO SHOOTER (playername,playerrating,playercost,playerscore) 
+                        values('$playername','$playerrating','$playercost','$playerscore')";
+                $result = mysqli_query($con,$sql);
+                echo 'Player created';        
+            }else {
+                $sql = "INSERT INTO GOALIE (playername,playerrating,playercost,playerscore) 
+                        values('$playername','$playerrating','$playercost','$playerscore')";
+                $result = mysqli_query($con,$sql);
+                echo 'Player created';
+            }
+        }
+        //echo $user;
     ?>
 </body>
 </html>
