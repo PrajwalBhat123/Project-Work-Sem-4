@@ -18,16 +18,16 @@
 
     if($count == 1){
         $_SESSION['username'] = $username;
-        header('location:form.php');
+        header('location:buyplayer.php');
     }   // echo "Login Successful";
     //else{
     //     echo 'Something went wrong!! Try again';
     //     //header('location:index.html');
     // }
 
-    if(isset($_SESSION['username'])){
-        echo 'Session is active';
-    }else{
-        echo 'Session is not active'; 
-    }
+    // if(isset($_SESSION['username'])){
+    //     echo 'Session is active';
+    // }else{
+    //     echo 'Session is not active'; 
+    // }
     }

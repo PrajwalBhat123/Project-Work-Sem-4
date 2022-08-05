@@ -7,6 +7,9 @@
     <title>Create Player</title>
 </head>
 <body>
+    <header>
+        <input type="submit" name="Logout" value="LogOut">
+    </header>
     <form action="form.php" method="post">
         <div class="input-field">
             <input type="text" name="playername" placeholder="Enter name" required>
@@ -32,11 +35,21 @@
             <input type="submit" value="Create">
         </div>
     </form>
+
     <?php
         error_reporting(0);
+        // if(array_key_exists('Logout', $_POST)) {
+        //     Logout();
+        // }
+        
         if($_SERVER['REQUEST_METHOD'] == "POST"){
             require_once('index.php');
             require_once('authentication.php');
+         
+        if(! ($_SESSION['username'])){
+            header('Location : index.html');
+        }
+         
             $user = $_SESSION['username'];
             $playername = $_POST['playername'];
             $playertype = $_POST['playertype'];
@@ -44,33 +57,23 @@
             $playercost = $_POST['playercost'];
             $playerscore = $_POST['playerscore'];
             $playerrating = $_POST['playerrating'];
-            if(empty($user)){
-                echo ' Username not transfered';
-                return;
-            }else{
-                echo $user;
-            }
-            echo 'Player ready to create';
+            
             $countryid = "select countryId from country where countryname = '$playercountry'";
             $idresult = mysqli_query($con,$countryid);
             $row = mysqli_fetch_array($idresult);
             $country = $row['countryId'];
-            echo '    ';
-            echo $row['countryId'];
-            
-            if($playertype == 'shooter'){
-                $sql = "INSERT INTO SHOOTER (playername,playerrating,playercost,playerscore) 
-                        values('$playername','$playerrating','$playercost','$playerscore')";
-                $result = mysqli_query($con,$sql);
-                echo 'Player created';        
-            }else {
-                $sql = "INSERT INTO GOALIE (playername,playerrating,playercost,playerscore) 
-                        values('$playername','$playerrating','$playercost','$playerscore')";
-                $result = mysqli_query($con,$sql);
-                echo 'Player created';
-            }
+            $typeId = "select typeId from playertype where type = '$playertype'";
+            $idresult = mysqli_query($con,$typeid);
+            $row = mysqli_fetch_array($idresult);
+            $type = $row['typeId'];
+            $sql = "INSERT INTO player (playername,playerrating,playercost,playerscore,playercountry,playertype) 
+            values('$playername','$playerrating','$playercost','$playerscore','$country','$typeId')";
+            $result = mysqli_query($con,$sql);
+
         }
-        //echo $user;
+        function Logout(){
+            session_destroy();
+        }
     ?>
 </body>
 </html>
