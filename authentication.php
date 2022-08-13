@@ -1,7 +1,9 @@
 <?php
-    session_start();
+    //session_destroy();
+    
     include "index.php";
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    session_start();
     $username = $_POST['user'];
     $password = $_POST['pass'];
     $username = stripcslashes($username);
@@ -18,7 +20,7 @@
 
     if($count == 1){
         $_SESSION['username'] = $username;
-        header('location:buyplayer.php');
+        header('location:form.php');
     }   // echo "Login Successful";
     //else{
     //     echo 'Something went wrong!! Try again';

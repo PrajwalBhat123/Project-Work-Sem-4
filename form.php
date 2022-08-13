@@ -7,8 +7,41 @@
     <title>Create Player</title>
 </head>
 <body>
+<?php
+        error_reporting(0);
+
+        if($_SERVER['REQUEST_METHOD'] == "POST"){
+            require_once('index.php');
+            require_once('authentication.php');
+            if(($_SESSION['username'])){ 
+                     
+            $user = $_SESSION['username'];
+            $playername = $_POST['playername'];
+            $playertype = $_POST['playertype'];
+            $playercountry = $_POST['playercountry'];
+            $playercost = $_POST['playercost'];
+            $playerscore = $_POST['playerscore'];
+            $playerrating = $_POST['playerrating'];
+            
+            $countryid = "select countryId from country where countryname = '$playercountry'";
+            $idresult = mysqli_query($con,$countryid);
+            $row = mysqli_fetch_array($idresult);
+            $country = $row['countryId'];
+            $typeId = "select typeId from playertype where type = '$playertype'";
+            $idresult = mysqli_query($con,$typeid);
+            $row = mysqli_fetch_array($idresult);
+            $type = $row['typeId'];
+            $sql = "INSERT INTO player (playername,playerrating,playercost,playerscore,playercountry,playertype) 
+            values('$playername','$playerrating','$playercost','$playerscore','$country','$typeId')";
+            $result = mysqli_query($con,$sql);
+
+        }
+    }
+    ?>
     <header>
-        <input type="submit" name="Logout" value="LogOut">
+        <a href="logout.php">
+            <button>Logout</button>
+        </a>
     </header>
     <form action="form.php" method="post">
         <div class="input-field">
@@ -36,44 +69,6 @@
         </div>
     </form>
 
-    <?php
-        error_reporting(0);
-        // if(array_key_exists('Logout', $_POST)) {
-        //     Logout();
-        // }
-        
-        if($_SERVER['REQUEST_METHOD'] == "POST"){
-            require_once('index.php');
-            require_once('authentication.php');
-         
-        if(! ($_SESSION['username'])){
-            header('Location : index.html');
-        }
-         
-            $user = $_SESSION['username'];
-            $playername = $_POST['playername'];
-            $playertype = $_POST['playertype'];
-            $playercountry = $_POST['playercountry'];
-            $playercost = $_POST['playercost'];
-            $playerscore = $_POST['playerscore'];
-            $playerrating = $_POST['playerrating'];
-            
-            $countryid = "select countryId from country where countryname = '$playercountry'";
-            $idresult = mysqli_query($con,$countryid);
-            $row = mysqli_fetch_array($idresult);
-            $country = $row['countryId'];
-            $typeId = "select typeId from playertype where type = '$playertype'";
-            $idresult = mysqli_query($con,$typeid);
-            $row = mysqli_fetch_array($idresult);
-            $type = $row['typeId'];
-            $sql = "INSERT INTO player (playername,playerrating,playercost,playerscore,playercountry,playertype) 
-            values('$playername','$playerrating','$playercost','$playerscore','$country','$typeId')";
-            $result = mysqli_query($con,$sql);
-
-        }
-        function Logout(){
-            session_destroy();
-        }
-    ?>
+    
 </body>
 </html>
