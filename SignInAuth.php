@@ -19,17 +19,26 @@
         //    echo 'New username';
             if($password == $conpassword && !$exists){
                 $hash = password_hash($password,PASSWORD_DEFAULT);
-                $sql = "insert into user (username,password,wallet) values('$username','$password',1000)";
+                $sql = "insert into user (username,password,wallet) values('$username','$password',10000)";
                 $result = mysqli_query($con,$sql);
                 if($result){
-                    $showAlert = true;
-                    header("Location : index.html"); 
-                    echo 'Success!
-                     Your account has been created and you can now login.';   
+                    $showAlert = true;.
+
+                    $sql = "select * from user where username = $username";
+                    $result = mysqli_query($con,$sql);
+                    $row = mysqli_fetch_assoc($result);
+                    $team = $row['userId'];
+                    $sql = "insert into Userteams (userId,teamname) values('$userId','$username')";
+                    $result = mysqli_query($con,$sql);
+                    if($result){
+                        header("Location : index.html"); 
+                        echo "<script>alert('Success!
+                        Your account has been created and you can now login.');</script>";   
+                    }
                 }
             }else{
                 $showError = 'Passwords do not match';
-                echo 'Error ::: .$showError';
+                echo "<script>alert('Error ::: .$showError');</script>";
             }
         }
         if($num > 0){

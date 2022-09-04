@@ -8,14 +8,22 @@
 </head>
 <body>
 <?php
-        error_reporting(0);
-
+        //error_reporting(0);
+        require_once('authentication.php');
+        //echo $_SESSION['username'];
+        if(!$_SESSION['username'])
+        {
+           // echo $_SESSION['username'];
+            header('location:login.php');
+        }
         if($_SERVER['REQUEST_METHOD'] == "POST"){
             require_once('index.php');
             require_once('authentication.php');
             if(($_SESSION['username'])){ 
-                     
+            //echo 'hi';
+            //echo $_SESSION['username'];
             $user = $_SESSION['username'];
+            //$_SESSION['username'] = $user;
             $playername = $_POST['playername'];
             $playertype = $_POST['playertype'];
             $playercountry = $_POST['playercountry'];
@@ -23,23 +31,35 @@
             $playerscore = $_POST['playerscore'];
             $playerrating = $_POST['playerrating'];
             
+            $countryname = "select countryId from country where countryname = '$playercountry'";
+            $idresult = mysqli_query($con,$countryname);
+            if(mysqli_num_rows($idresult) == 0){
+                $sql = "insert into country (countryname) values($playercountry)";
+                $result = mysqli_query($con,$sql);
+            }
             $countryid = "select countryId from country where countryname = '$playercountry'";
             $idresult = mysqli_query($con,$countryid);
             $row = mysqli_fetch_array($idresult);
             $country = $row['countryId'];
-            $typeId = "select typeId from playertype where type = '$playertype'";
-            $idresult = mysqli_query($con,$typeid);
-            $row = mysqli_fetch_array($idresult);
-            $type = $row['typeId'];
+            echo $country;
+            $typeId = "select typeId from type where type = '$playertype'";
+            $idresult = mysqli_query($con,$typeId);
+            $rowt = mysqli_fetch_assoc($idresult);
+            $type = $rowt['typeId'];
+            echo $type;
             $sql = "INSERT INTO player (playername,playerrating,playercost,playerscore,playercountry,playertype) 
-            values('$playername','$playerrating','$playercost','$playerscore','$country','$typeId')";
+            values('$playername','$playerrating','$playercost','$playerscore','$country','$type')";
             $result = mysqli_query($con,$sql);
-
+            if($result){
+                echo "<script>alert('Player Created');</script>";
+            }else{
+                echo "<script>alert('Player Not Created !!!');</script>";
+            }    
         }
     }
     ?>
     <header>
-        <a href="logout.php">
+        <a href="login.php">
             <button>Logout</button>
         </a>
     </header>

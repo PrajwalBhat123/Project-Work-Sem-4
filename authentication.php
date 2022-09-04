@@ -1,9 +1,9 @@
 <?php
     //session_destroy();
-    
+    session_start();
     include "index.php";
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    session_start();
+    
     $username = $_POST['user'];
     $password = $_POST['pass'];
     $username = stripcslashes($username);
@@ -20,7 +20,7 @@
 
     if($count == 1){
         $_SESSION['username'] = $username;
-        header('location:form.php');
+        header('location:test.php');
     }   // echo "Login Successful";
     //else{
     //     echo 'Something went wrong!! Try again';

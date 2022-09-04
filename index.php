@@ -29,9 +29,7 @@
         if(!mysqli_query($con,$sql)){
             echo "Error creating :: ".mysqli_error($con);
         }
-        // else{
-        //     echo "Table '$tablename[0]' created";
-        // }
+        
         //Country table
         $sql = "CREATE TABLE IF NOT EXISTS $tablename[1] 
         (countryId int not null auto_increment primary key,
@@ -40,16 +38,17 @@
         if(!mysqli_query($con,$sql)){
             echo "Error creating :: ".mysqli_error($con);
         }
-        // else{
-        //     echo "Table '$tablename[1]' created";
-        // }
-        $sql = "CREATE TABLE IF NOT EXISTS $tablename[2] 
+        
+        //type table
+        $sql = "CREATE TABLE IF NOT EXISTS $tablename[7] 
         (typeId int not null auto_increment primary key,
          type varchar(10));";
-        if(!myysqli_query($con,$sql)){
+        
+        if(!mysqli_query($con,$sql)){
             echo "Error creating :: " .mysqli_error($con);
         } 
-        //shooter table
+
+        //Player table
         $sql = "CREATE TABLE IF NOT EXISTS $tablename[2] 
         (playerId int not null auto_increment primary key,
          playername varchar(20),
@@ -58,32 +57,14 @@
          playercountry int,
          playercost real,
          playertype int,
-         foreign key (playercountry) references country(countryId),
-         foreign key (playertype) references playertype(typeId));";
+         playerimage varchar(100),
+         foreign key (playercountry) references $tablename[1](countryId),
+         foreign key (playertype) references $tablename[7](typeId));";
 
         if(!mysqli_query($con,$sql)){
             echo "Error creating :: ".mysqli_error($con);
         }
-        // else{
-        //     echo "Table '$tablename[2]' created";
-        // }
-        //     //goalie table
-        // $sql = "CREATE TABLE IF NOT EXISTS $tablename[3] 
-        // (playerId int not null auto_increment primary key,
-        //  playername varchar(20),
-        //  playerrating real,
-        //  playerscore real,
-        //  playercountry int,
-        //  playercost real,
-        //  foreign key (playercountry) references country(countryId));";
-
-        // if(!mysqli_query($con,$sql)){
-        //     echo "Error creating :: ".mysqli_error($con);
-        // }
-        // else{
-        //     echo "Table '$tablename[3]' created";
-        // }
-
+        
         //coach table
         $sql = "CREATE TABLE IF NOT EXISTS $tablename[3] 
         (coachId int not null auto_increment primary key,
@@ -133,13 +114,12 @@
         if(!mysqli_query($con,$sql)){
             echo "Error creating :: ".mysqli_error($con);
         }
-        // else{
-        //     echo "Table '$tablename[6]' created";
-        // }
+        
+        //Userplayers table
         $sql = "CREATE TABLE IF NOT EXISTS $tablename[6] 
         (userId int,playerId int,type varchar(10),
         foreign key (userId) references user(userId),
-        foreign key (playerId) references player(palyerId));";
+        foreign key (playerId) references player(playerId));";
 
         if(!mysqli_query($con,$sql)){
             echo "Error creating :: ".mysqli_error($con);

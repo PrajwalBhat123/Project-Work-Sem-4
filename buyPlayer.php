@@ -32,30 +32,37 @@
 		<div class="container d-flex justify-content-center">
 			<?php
 			   include 'index.php';
-			   require_once('authentication.php');
+			   include ('authentication.php');
 			   error_reporting(0);
 			   if(! ($_SESSION['username'])){
 				   header('Location : index.html');
 			   }
 			   $username = $_SESSION['username'];
-			   $sql = "select * from shooter";
+			   $sql = "select * from player";
 			   $result = mysqli_query($con,$sql);
 			   $idarray = array();
-			   $countryname = 'Default';
+			   //$countryname = 'Default';
 			   while ($row = mysqli_fetch_assoc($result)){             
 			   ?>           
-	
+				<form action="pw.php" method="post" class="playerbutton">
 			   <div class="card p-3 py-4">
 				   <div class="text-center"> 
 					   <h3 class="mt-2"><?php echo $row['playername'] ?></h3>
-					   <span class="mt-1 clearfix"><?php echo $row['playertype']?></span>
 					   <?php 
-							$sql = "select countryname from country where countryId = '$row[countryId]'";
+					 		$sql = "select type from type where typeId = '$row[playertype]'";
+							$typeresult = mysqli_query($con,$sql);
+							while($id = mysqli_fetch_assoc($typeresult)){
+								$typename = $id['type'];
+							}
+							$sql = "select countryname from country where countryId = '$row[playercountry]'";
 							$countryresult = mysqli_query($con,$sql);
 							while($country = mysqli_fetch_assoc($countryresult)){
 								$countryname = $country['countryname'];
 							}  
-						?>
+							$pid= $row['playerId'];
+					   ?>
+					   <span class="mt-1 clearfix"><?php echo $typename ?></span>
+
 					   <span class="mt-1 clearfix"><?php echo $countryname?></span>
 					   <div class="row mt-3 mb-3">
 						   <div class="col-md-4">
@@ -64,7 +71,7 @@
 						   </div>
 						   <div class="col-md-4">
 							   <h5>Rating</h5>
-							   <span class="num"><?php echo $row['playerrating']?></span>
+							   <span class="num"><?php echo $row['playerrating']?></span> 
 						   </div>
 						   <div class="col-md-4">
 							   <h5>Score</h5>
@@ -73,8 +80,11 @@
 					   </div>                   
 						   <hr class="line">
 					   <div class="profile mt-5">
-						   <button class="profile_button px-5" id = "<?$row['$playerid']?>">Select Player</button>
+						
+							<button class="profile_button px-5">Select Player</button>
+							<input type='hidden' name='buyPlayer' value="<?php echo $pid?>">	
 					   </div>   
+						</form>
 				   </div>
 			   </div>
 			 <?php }?>
