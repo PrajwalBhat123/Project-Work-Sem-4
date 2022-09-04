@@ -1,0 +1,9 @@
+.flex-container {
+    display: flex;
+    background-color: white;
+  }
+  
+  .flex-container > div {
+    background-color: #f1f1f1;
+    padding: 20px;
+  }
