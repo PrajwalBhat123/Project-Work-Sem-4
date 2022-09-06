@@ -1,0 +1,67 @@
+
+html{
+  overflow: hidden;
+}
+body {
+  background-image: url("background.jpg");
+  background-size: cover;
+}
+
+.logo img{
+  position: absolute;
+  top: -20vh;
+  left: 30vw;
+  height:40vw;
+  width: 40vw;
+}
+
+.flex-container {
+  position: absolute;
+  top: 10vh;
+  left: 27vw;
+  display: flex;
+  width: 90vw;
+  margin: 30vh auto;
+}
+
+.flex-child {
+  min-width: 10vw;
+
+  transition: 1s ease-in-out;
+  flex: 1;
+  background: linear-gradient(-45deg, black, transparent);
+  height: 30vh;
+  border-radius: 60px;
+  text-align: center;
+  margin: 1vw;
+  color: rgb(223, 223, 223);
+
+  animation: moveAcross 0.5s linear;
+
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.flex-child:hover {
+  transition: 0.5s ease-in-out;
+  background: black;
+  border-radius: 0px;
+  transform: translateY(-10px);
+}
+
+.flex-child h1 {
+  font-family: "Raleway", sans-serif;
+  font-size: 150%;
+  transform: translateY(390%);
+}
+
+@keyframes moveAcross {
+  0% {
+    height: 200px;
+    border-radius: 100px;
+  }
+}
+
+a {
+  display: block;
+  color: transparent;
+}

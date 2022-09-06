@@ -58,11 +58,6 @@
         }
     }
     ?>
-    <header>
-        <a href="login.php">
-            <button>Logout</button>
-        </a>
-    </header>
     <form action="form.php" method="post">
         <div class="input-field">
             <input type="text" name="playername" placeholder="Enter name" required>

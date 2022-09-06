@@ -7,11 +7,17 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link href="../buy_card/buy_card.css" rel="stylesheet" type="text/css"/>
+	<link href="buy.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 <?php
-    error_reporting(0);
+    //error_reporting(0);
     include ('index.php');
     //echo "hello";
     require_once('authentication.php');
@@ -39,14 +45,19 @@
             $idarray = array();
             $sql = "select playerId from userplayers where userId = $userId";
             $presult = mysqli_query($con,$sql);
+           // echo $userId;
             if(mysqli_num_rows($presult) > 0){
                 while($player = mysqli_fetch_assoc($presult)){
                     array_push($idarray,$player['playerId']);
                 }
             }
-            $sql = "SELECT * FROM userplayers WHERE playerId IN (" . implode(',', $idarray) . ")";
-            $playerresult = mysqli_query($con,$sql);
-            if(!mysqli_num_rows($playerresult)){
+            $flag = 1;
+            for($i=0;$i<sizeof($idarray);$i++){
+                if($pid == $idarray[$i]){
+                    $flag = 0;
+                }
+            }
+            if($flag){
                 $newwallet = $wallet - $cost;
                 $sql  = "update user set wallet = '$newwallet' where username = '$username'";
                 $result = mysqli_query($con,$sql);
@@ -54,28 +65,65 @@
                 $iresult = mysqli_query($con,$sql);
                 $sql = "select * from userTeams where userId = $userId";
                 $tresult = mysqli_query($con,$sql);
+                $sh1 = null;
+                $sh2 = null;
+                $sh3 = null;
+                $gk = null;
+                
                 while($player = mysqli_fetch_assoc($tresult)){
-                    $sh1 = $row['shooter1'];
-                    $sh2 = $row['shooter2'];
-                    $sh3 = $row['shooter3'];
-                    $gk = $row['goalie'];
+                    $sh1 = $player['shooter1'];
+                    echo $player['teamname'];
+                    $sh2 = $player['shooter2'];
+                    $sh3 = $player['shooter3'];
+                    $gk = $player['goalie'];
                 }
                 if($type == 1){
                     if(is_null($sh1)){
-                        $sql = "insert into userTeams column(shooter1) values($pid)";
+                        $sql = "update userTeams set shooter1 = '$pid' where userId = $userId ";
                         $sresult = mysqli_query($con,$sql);
+                        $sql = "commit";
+                        $commit = mysqli_query($con,$sql);
+                        if($commit){
+                            echo 'commit';
+                        }
+                        if($sresult){
+                            echo 'Entered shooter1';
+                        }else{
+                            echo 'Not entered';
+                        }
                     }else if(is_null($sh2)){
-                        $sql = "insert into userTeams column(shooter2) values($pid)";
+                        $sql = "update userTeams set shooter2 = '$pid' where userId = $userId";
                         $sresult = mysqli_query($con,$sql);
+                        $sql = "commit";
+                        $commit = mysqli_query($con,$sql);
+                        if($sresult){
+                            echo 'Entered shooter2';
+                        }else{
+                            echo 'Not entered';
+                        }
                     }else if(is_null($sh3)){
-                        $sql = "insert into userTeams column(shooter3) values($pid)";
+                        $sql = "update userTeams set shooter3 = '$pid' where userId = $userId";
                         $sresult = mysqli_query($con,$sql);
+                        $sql = "commit";
+                        $commit = mysqli_query($con,$sql);
+                        if($sresult){
+                            echo 'Entered shooter3';
+                        }else{
+                            echo 'Not entered';
+                        }
                     }
                         echo "<script>alert('Player bought');</script>";
                     }else{
                         if(is_null($gk)){
-                            $sql = "insert into userPlayers column(goalie) values($pid)";
+                            $sql = "update userTeams set goalie = '$pid' where userId = $userId";
                             $sresult = mysqli_query($con,$sql);
+                            $sql = "commit";
+                            $commit = mysqli_query($con,$sql);
+                            if($sresult){
+                                echo 'Entered goalie';
+                            }else{
+                                echo 'Not entered';
+                            }
                         }
                         echo "<script>alert('Player bought');</script>";
                     }    
@@ -85,6 +133,7 @@
             }else{
                 echo "<script>alert('Cannot buy player. Not enough money ')</script>";
             }
+            unset($_POST['buyPlayer']);
         }
     ?>
     <?php
@@ -136,6 +185,7 @@
                             <!-- <img src="la.jpg" alt="Los Angeles"> -->
                             <div class="card p-3 py-4">
 				                <div class="text-center"> 
+                                    <img class="image" src="images\<?php echo $row['playerimage']?>" alt='Player image'></img>
 					                <h3 class="mt-2"><?php echo $row['playername'] ?></h3>
 					                <?php 
 					 		            $sql = "select type from type where typeId = '$row[playertype]'";
