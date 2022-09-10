@@ -4,180 +4,109 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Select Player</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 
 </head>
-<body>
-    <header>
-        <input type="submit" name="remove" value="remove">
-    </header>
-    
+<body>    
 <?php
-    error_reporting(0);
+    //error_reporting(0);
     include ('index.php');
     //echo "hello";
     require_once('authentication.php');
     if(!$_SESSION['username'])
     {
-//        echo $_SESSION['username'];
         header('location:login.php');
     }
     $username = $_SESSION['username'];
+    $sql = "select * from userPlayers where userId = (select userId from user where username = '$username')";
+    $res = mysqli_query($con,$sql);
+    $empty = 0;
+    if(mysqli_num_rows($res) == 0){
+        echo "<script>alert('No Players bought !!')</script>";
+        $empty = 1;
+    }
+    if($empty){
+        header('location:buyPlayer.php');
+    }
     if(isset($_POST['selectPlayer'])){
         //echo $_POST['selectPlayer'];
         $pid = $_POST['selectPlayer'];
-        $sql = "select * from player where playerId = '$pid'";
-        $result = mysqli_query($con,$sql);
-        while($row = mysqli_fetch_assoc($result)){
-            //$type = $row['playertype'];
-            $cost = $row['playercost'];
-        }
         
-//        echo "Cost : $cost,Wallet : $wallet";
-        
-        $sql = "select * from userTeams where userId = $userId";
+        $sql = "select * from players where playerId = $pid";
         $tresult = mysqli_query($con,$sql);
-        while($player = mysqli_fetch_assoc($tresult)){
+        while($row = mysqli_fetch_assoc($tresult)){
+            $type = $row['type'];    
+        }
+        $sql = "select * from userTeams where userId = (select userId from user where username = $username)";
+        $idresult = mysqli_query($con,$sql);
+        
+        $sql = "select * from userTeams where userId = (select userId from user where username = $username)";
+        $tresult = mysqli_query($con,$sql);
+        while($row = mysqli_fetch_assoc($tresult)){
             $sh1 = $row['shooter1'];
             $sh2 = $row['shooter2'];
             $sh3 = $row['shooter3'];
             $gk = $row['goalie'];
         }
+
         //$value = null;
         if($sh1 == $pid || $sh2 == $pid || $sh3 == $pid || $gk == $pid){
-            echo "<script>alert('Selected Player is already present in the team!!!')</script>"    
+            echo "<script>alert('Selected Player is already present in the team!!!')</script>";    
         }else if(!is_null($sh1) && !is_null($sh2) && !is_null($sh3) && !is_null($gk)){
-            echo "<script>alert('Team is Full . Remove Player from team !!!')</script>"        
-        }else if(is_null($sh1)){
-            $sql = "insert into userTeams column(shooter1) values($pid) where $userId = (select userId from user where username = $username)";
-            $updateresult = mysqli_query($con,$sql);
-        }else if(is_null($sh2)){
-            $sql = "insert into userTeams column(shooter2) values($pid) where $userId = (select userId from user where username = $username)";
-            $updateresult = mysqli_query($con,$sql);
-        }else if(is_null($sh3)){
-            $sql = "insert into userTeams column(shooter3) values($pid) where $userId = (select userId from user where username = $username)";
-            $updateresult = mysqli_query($con,$sql);
-        }else if(is_null($gk)){
-            $sql = "insert into userTeams column(goalie) values($pid) where $userId = (select userId from user where username = $username)";
-            $updateresult = mysqli_query($con,$sql);
+            echo "<script>alert('Team is Full . Remove Player from team !!!');</script>";        
         }
-        $sql = "select playerId from userPlayers where userId = (select userId from user where username = $username)";
-        $idresult = mysqli_query($con,$sql);
-        
-        if(array_key_exists('remove', $_POST)) {
-            $value = null;
-            $sql = "select * from userTeams where userId = $userId";
-            $tresult = mysqli_query($con,$sql);
-            while($player = mysqli_fetch_assoc($tresult)){
-                $sh1 = $row['shooter1'];
-                $sh2 = $row['shooter2'];
-                $sh3 = $row['shooter3'];
-                $gk = $row['goalie'];
+        $shooter=0;
+        $goalie = 0;
+        if($type == 1){
+            if(is_null($sh1)){
+                $sql = "insert into userTeams (shooter1) values($pid) where userId = (select userId from user where username = $username)";
+                $updateresult = mysqli_query($con,$sql);
+            }else if(is_null($sh2)){
+                $sql = "insert into userTeams (shooter2) values($pid) where userId = (select userId from user where username = $username)";
+                $updateresult = mysqli_query($con,$sql);
+            }else if(is_null($sh3)){
+                $sql = "insert into userTeams (shooter3) values($pid) where userId = (select userId from user where username = $username)";
+                $updateresult = mysqli_query($con,$sql);
+            }else{
+                echo "<script>alert('Shooters are filled in !!');</script>";
+                $shooter = 1;
             }
-
-            if($sh1 == $pid){
-                $sql = "update userTeams set shooter1 = $value where $userId = (select userId from user where username = $username)";
-                $updateresult = mysqli_query($con,$sql);
-                if(!is_null($sh2) && !is_null($sh3) && !is_null($gk)){
-                    $sql = "select shooter2,shooter3,goalie from userTeams where userId = (select userId from user where username = $username)";
-                }else if(is_null($sh2) && is_null($sh3) && is_null($gk)){
-                    echo "<script>alert('Team is empty!!')</script>";
-                }else if(is_null($sh2) && is_null($sh3)){
-                    $sql = "select goalie from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh2) && is_null($gk)){
-                    $sql = "select shooter3 from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh3) && is_null($gk)){
-                    $sql = "select shooter2 from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh2)){
-                    $sql = "select shooter3,goalie from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh3)){
-                    $sql = "select shooter2,goalie from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($gk)){
-                    $sql = "select shooter2,shooter3 from userTeams where userId = (select userId from user where username = $username)";    
-                }
-            }else if($sh2 == $pid){
-                $sql = "update userTeams set shooter2 = $value where $userId = (select userId from user where username = $username)";
-                $updateresult = mysqli_query($con,$sql);
-                if(!is_null($sh1) && !is_null($sh3) && !is_null($gk)){
-                    $sql = "select shooter1,shooter3,goalie from userTeams where userId = (select userId from user where username = $username)";
-                }else if(is_null($sh1) && is_null($sh3) && is_null($gk)){
-                    echo "<script>alert('Team is empty!!')</script>";
-                }else if(is_null($sh1) && is_null($sh3)){
-                    $sql = "select goalie from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh1) && is_null($gk)){
-                    $sql = "select shooter3 from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh3) && is_null($gk)){
-                    $sql = "select shooter1 from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh1)){
-                    $sql = "select shooter3,goalie from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh3)){
-                    $sql = "select shooter1,goalie from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($gk)){
-                    $sql = "select shooter1,shooter3 from userTeams where userId = (select userId from user where username = $username)";    
-                }
-            }else if($sh3 == $pid){
-                $sql = "update userTeams set shooter3 = $value where $userId = (select userId from user where username = $username)";
-                $updateresult = mysqli_query($con,$sql);
-                if(!is_null($sh2) && !is_null($sh1) && !is_null($gk)){
-                    $sql = "select shooter1,shooter2,goalie from userTeams where userId = (select userId from user where username = $username)";
-                }else if(is_null($sh2) && is_null($sh1) && is_null($gk)){
-                    echo "<script>alert('Team is empty!!')</script>";
-                }else if(is_null($sh2) && is_null($sh1)){
-                    $sql = "select goalie from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh2) && is_null($gk)){
-                    $sql = "select shooter1 from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh1) && is_null($gk)){
-                    $sql = "select shooter2 from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh2)){
-                    $sql = "select shooter1,goalie from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh1)){
-                    $sql = "select shooter2,goalie from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($gk)){
-                    $sql = "select shooter1,shooter2 from userTeams where userId = (select userId from user where username = $username)";    
-                }
-            }else if($gk == $pid){
-                $sql = "update userTeams set goalie = $value where $userId = (select userId from user where username = $username)";
-                $updateresult = mysqli_query($con,$sql);
-                if(!is_null($sh2) && !is_null($sh3) && !is_null($sh1)){
-                    $sql = "select shooter1,shooter2,shooter3 from userTeams where userId = (select userId from user where username = $username)";
-                }else if(is_null($sh2) && is_null($sh3) && is_null($sh1)){
-                    echo "<script>alert('Team is empty!!')</script>";
-                }else if(is_null($sh2) && is_null($sh3)){
-                    $sql = "select shooter1 from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh2) && is_null($sh1)){
-                    $sql = "select shooter3 from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh3) && is_null($sh1)){
-                    $sql = "select shooter2 from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh2)){
-                    $sql = "select shooter1,shooter3 from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh3)){
-                    $sql = "select shooter1,shooter2 from userTeams where userId = (select userId from user where username = $username)";    
-                }else if(is_null($sh1)){
-                    $sql = "select shooter2,shooter3 from userTeams where userId = (select userId from user where username = $username)";    
-                }
+            if($shooter){
+                header('location:removFromTeam.php');
             }
-            $idresult = mysqli_query($con,$sql); 
+        }else if($type == 2){
+            if(is_null($gk)){
+                $sql = "insert into userTeams (goalie) values($pid) where userId = (select userId from user where username = $username)";
+                $updateresult = mysqli_query($con,$sql);
+            }else{
+                echo "<script>alert('Goaile is filled in !!');</script>";
+                $goalie = 1;    
+            }    
+            if($goalie){
+                header('location:removFromTeam.php');
+            }
         }
+        $unset($_POST['selectPlayer']);
     }
-    ?>
-    <?php
     // if(isset($_POST['upload'])){
     //     $image = $_FILES['image']['name'];
     //     $path = 'images/'.$image;
 
     //     move_uploaded_file($_FILES['image']['tmp_name'],$path);
     // }
+    
+    $sql = "select * from userPlayers where userId = (select userId from user where username = '$username')";
+    $idresult = mysqli_query($con,$sql);
+            
     $id = array();
     while($idrow = mysqli_fetch_assoc($idresult)){
         array_push($id,$idrow['playerId']);
     }
     
-    $sql = "select * from player where playerId in ($id)";
+    $sql = "SELECT * FROM player WHERE playerId IN (" . implode(',', $id) . ")";
 	$result = mysqli_query($con,$sql);
-
-
 ?>
 
     <div class="container-fluid">

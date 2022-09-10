@@ -11,7 +11,7 @@
 </head>
 <body>
 <?php
-    error_reporting(0);
+    //error_reporting(0);
     include ('index.php');
     require_once('authentication.php');
     if(!$_SESSION['username'])
@@ -37,26 +37,27 @@
             $idarray = array();
             $sql = "select * from userteams where userId = $userId";
             $presult = mysqli_query($con,$sql);
-            $coachId = 0;
             while($player = mysqli_fetch_assoc($presult)){
                 $coachId = $player['coach'];
             }
-            if($coachId != 0 ){
-                echo "<script>alert('Already have coach !1');</script>";
+            if(!is_null($coachId)){
+                echo "<script>alert('Already have coach !!');</script>";
             }
-            if($coachId != 0 ){
-                header('location:index.php');
+            if(!is_null($coachId)){
+                header('location:homeindex.php');
             }
 
             $sql = "insert into userteams (coach) values('$cid')";
             $playerresult = mysqli_query($con,$sql);
-            if(!mysqli_num_rows($playerresult)){
+            if(($playerresult)){
                 $newwallet = $wallet - $cost;
                 $sql  = "update user set wallet = '$newwallet' where username = '$username'";
                 $result = mysqli_query($con,$sql);
-                $sql = "insert into userPlayers values($userId,$cid,'coach')";
+                $sql = "insert into userPlayers values($userId,$cid,3)";
                 $iresult = mysqli_query($con,$sql);
+            }
         }
+    }
     ?>
     <?php
     // if(isset($_POST['upload'])){
@@ -67,7 +68,7 @@
     // }
     $sql = "select * from coach";
 	$result = mysqli_query($con,$sql);
-			   
+    
 ?>
 
     <div class="container-fluid">
@@ -107,41 +108,32 @@
                             <!-- <img src="la.jpg" alt="Los Angeles"> -->
                             <div class="card p-3 py-4">
 				                <div class="text-center"> 
-					                <h3 class="mt-2"><?php echo $row['playername'] ?></h3>
+					                <h3 class="mt-2"><?php echo $row['coachname'] ?></h3>
 					                <?php 
-					 		            $sql = "select type from type where typeId = '$row[playertype]'";
-							            $typeresult = mysqli_query($con,$sql);
-            							while($id = mysqli_fetch_assoc($typeresult)){
-			        					$typename = $id['type'];
-					            		}
-            							$sql = "select countryname from country where countryId = '$row[playercountry]'";
+            							$sql = "select countryname from country where countryId = '$row[coachcountry]'";
 			            				$countryresult = mysqli_query($con,$sql);
 						            	while($country = mysqli_fetch_assoc($countryresult)){
 								            $countryname = $country['countryname'];
 							            }  
 					                ?>
-					                <span class="mt-1 clearfix"><?php echo $typename ?></span>
+					                <span class="mt-1 clearfix">Coach</span>
 
             					    <span class="mt-1 clearfix"><?php echo $countryname?></span>
 					                <div class="row mt-3 mb-3">
 						                <div class="col-md-4">
 							                <h5>Cost</h5>
-							                <span class="num"><?php echo $row['playercost']?></span>
+							                <span class="num"><?php echo $row['coachcost']?></span>
 						                </div>
 						                <div class="col-md-4">
 							                <h5>Rating</h5>
-							                <span class="num"><?php echo $row['playerrating']?></span> 
-						                </div>
-						                <div class="col-md-4">
-							                <h5>Score</h5>
-							                <span class="num"><?php echo $row['playerscore']?></span>
+							                <span class="num"><?php echo $row['coachrating']?></span> 
 						                </div>
 					                </div>                   
 						            <hr class="line">
 					                <div class="profile mt-5">
 						                <form action="test.php" method="post">
-                                            <button class="profile_button px-5" id = "<?echo $row['$playerid']?>">Select Player</button>
-                                            <input type='hidden' name='buyCoach' value="<?php echo $row['playerId'];?>">
+                                            <button class="profile_button px-5" id = "<?echo $row['$coachId']?>">Select Coach</button>
+                                            <input type='hidden' name='buyCoach' value="<?php echo $row['coachId'];?>">
                                         </form>
                                     </div>   
 				                </div>

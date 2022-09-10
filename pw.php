@@ -41,7 +41,7 @@
             $userId = $row['userId'];
         }
         //echo $wallet;
-        $wallet = $wallet + ($cost * 0.5);
+        $newwallet = $wallet + ($cost * 0.5);
         //echo $wallet;
         $sql  = "update user set wallet = '$newwallet' where username = '$username'";
         $result = mysqli_query($con,$sql);
@@ -131,6 +131,7 @@
                             <!-- <img src="la.jpg" alt="Los Angeles"> -->
                             <div class="card p-3 py-4">
 				                <div class="text-center"> 
+                                    <img class="image" src="images\<?php echo $row['playerimage']?>" alt='Player image'></img>
 					                <h3 class="mt-2"><?php echo $row['playername'] ?></h3>
 					                <?php 
 					 		            $sql = "select type from type where typeId = '$row[playertype]'";

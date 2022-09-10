@@ -7,6 +7,11 @@
     <title>Create Player</title>
 </head>
 <body>
+    <nav>
+        <form>
+            <input type="button" name="logout" value="Logout">
+        </form>
+    </nav>
     <form action="createPlayer.php" method="post">
         <div class="input-field">
             <input type="text" name="playername" placeholder="Enter name" required>
@@ -32,6 +37,8 @@
             <input type="submit" value="Create">
         </div>
     </form>
-
+    <?php
+echo "Hello World!";
+?>
 </body>
 </html>
