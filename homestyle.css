@@ -18,14 +18,14 @@ body {
 .flex-container {
   position: absolute;
   top: 10vh;
-  left: 27vw;
+  left: 20vw;
   display: flex;
   width: 90vw;
   margin: 30vh auto;
 }
 
 .flex-child {
-  min-width: 10vw;
+  min-width: 200px;
 
   transition: 1s ease-in-out;
   flex: 1;
