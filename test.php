@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Buy Player</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link href="../buy_card/buy_card.css" rel="stylesheet" type="text/css"/>
+	<link href="buy_card.css" rel="stylesheet" type="text/css"/>
 	<link href="buy.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
@@ -72,7 +72,7 @@
                 
                 while($player = mysqli_fetch_assoc($tresult)){
                     $sh1 = $player['shooter1'];
-                    echo $player['teamname'];
+                    //echo $player['teamname'];
                     $sh2 = $player['shooter2'];
                     $sh3 = $player['shooter3'];
                     $gk = $player['goalie'];
@@ -171,7 +171,7 @@
                     </ul>
 
 <!-- The slideshow -->
-                    <div class="carousel-inner">
+                    <div class="carousel-inner" id="cardmove">
                     <?php
                             $i=0;
                             foreach($result as $row){
@@ -185,7 +185,7 @@
                             <!-- <img src="la.jpg" alt="Los Angeles"> -->
                             <div class="card p-3 py-4">
 				                <div class="text-center"> 
-                                    <img class="image" src="images\<?php echo $row['playerimage']?>" alt='Player image'></img>
+                                    <img class="image" src="images\<?php echo $row['playerimage']?>" alt='Player image' width='50' height='50'></img>
 					                <h3 class="mt-2"><?php echo $row['playername'] ?></h3>
 					                <?php 
 					 		            $sql = "select type from type where typeId = '$row[playertype]'";
@@ -231,10 +231,14 @@
 
 <!-- Left and right controls -->
                     <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                        <span class="carousel-control-prev-icon">Prev</span>
+                        <span class="carousel-control-prev-icon">
+                            <button> <-- </button>
+                        </span>
                     </a>
                     <a class="carousel-control-next" href="#demo" data-slide="next">
-                        <span class="carousel-control-next-icon"></span>
+                        <span class="carousel-control-next-icon">
+                            <button> --> </button>
+                        </span>
                     </a>
                 </div>
             </div>
