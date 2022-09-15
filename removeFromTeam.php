@@ -7,12 +7,14 @@
     <title>Remove Player</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-
+    <style>         
+      
+    </style>
 </head>
 <body>
 <?php
     //error_reporting(0);
-    include ('index.php');
+    require 'index.php';
     //echo "hello";
     require_once('authentication.php');
     if(!$_SESSION['username'])
@@ -49,12 +51,13 @@
             $sh3 = $row['shooter3'];
             $gk = $row['goalie'];
         }$sql='';
-        //$value = null;
+        //null = null;
             $empty=0;        
             $value = null;
             if($sh1 == $pid){
-                $sql = "update userTeams set shooter1 = $value where userId = (select userId from user where username = '$username')";
+                $sql = "update userTeams set shooter1 = null where userId = (select userId from user where username = '$username')";
                 $updateresult = mysqli_query($con,$sql);
+                echo "<script>alert('Shooter1');</script>";
                 if(!is_null($sh2) && !is_null($sh3) && !is_null($gk)){
                     $sql = "select shooter2,shooter3,goalie from userTeams where userId = (select userId from user where username = '$username')";
                 }else if(is_null($sh2) && is_null($sh3) && is_null($gk)){
@@ -74,8 +77,10 @@
                     $sql = "select shooter2,shooter3 from userTeams where userId = (select userId from user where username = '$username')";    
                 }
             }else if($sh2 == $pid){
-                $sql = "update userTeams set shooter2 = $value where userId = (select userId from user where username = '$username')";
+                $sql = "update userteams set shooter2 = null where userId = (select userId from user where username = '$username')";
                 $updateresult = mysqli_query($con,$sql);
+                echo "<script>alert('Shooter2');</script>";
+                
                 if(!is_null($sh1) && !is_null($sh3) && !is_null($gk)){
                     $sql = "select shooter1,shooter3,goalie from userTeams where userId = (select userId from user where username = '$username')";
                 }else if(is_null($sh1) && is_null($sh3) && is_null($gk)){
@@ -95,8 +100,9 @@
                     $sql = "select shooter1,shooter3 from userTeams where userId = (select userId from user where username = '$username')";    
                 }
             }else if($sh3 == $pid){
-                $sql = "update userTeams set shooter3 = $value where $userId = (select userId from user where username = '$username')";
+                $sql = "update userTeams set shooter3 = null where $userId = (select userId from user where username = '$username')";
                 $updateresult = mysqli_query($con,$sql);
+                echo "<script>alert('Shooter3');</script>";
                 if(!is_null($sh2) && !is_null($sh1) && !is_null($gk)){
                     $sql = "select shooter1,shooter2,goalie from userTeams where userId = (select userId from user where username = '$username')";
                 }else if(is_null($sh2) && is_null($sh1) && is_null($gk)){
@@ -116,8 +122,9 @@
                     $sql = "select shooter1,shooter2 from userTeams where userId = (select userId from user where username = '$username')";    
                 }
             }else if($gk == $pid){
-                $sql = "update userTeams set goalie = $value where $userId = (select userId from user where username = '$username')";
+                $sql = "update userTeams set goalie = null where $userId = (select userId from user where username = '$username')";
                 $updateresult = mysqli_query($con,$sql);
+                echo "<script>alert('Goalie');</script>";
                 if(!is_null($sh2) && !is_null($sh3) && !is_null($sh1)){
                     $sql = "select shooter1,shooter2,shooter3 from userTeams where userId = (select userId from user where username = '$username')";
                 }else if(is_null($sh2) && is_null($sh3) && is_null($sh1)){
@@ -222,7 +229,7 @@
 					                </div>                   
 						            <hr class="line">
 					                <div class="profile mt-5">
-						                <form action="test.php" method="post">
+						                <form action ="removeFromTeam.php" method="post">
                                             <button class="profile_button px-5" id = "<?echo $row['$playerid']?>">Select Player</button>
                                             <input type='hidden' name='removePlayer' value="<?php echo $row['playerId'];?>">
                                         </form>

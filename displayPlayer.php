@@ -1,40 +1,33 @@
 <?php
-    require_once('index.php');
-    require_once('authentication.php')
-    if(!$_SESSION['username'])
-    {
-        header('location:login.php');
-    }
-    $username = $_SESSION['username'];
-    //Sort based on rating
-    $sql = "select * from player where playerId in (select playerId from userPlayers 
-    where userId = (select userId from user where username = '$username')) order by playerrating";
-    $result = mysqli_query($con,$sql);
+    // //Sort based on rating
+    // $sql = "select * from player where playerId in (select playerId from userPlayers 
+    // where userId = (select userId from user where username = '$username')) order by playerrating";
+    // $result = mysqli_query($con,$sql);
 
-    //Specific country;
-    $country = $_POST['country'];
-    $sql = "select * from country where countryname = '$country'";
-    $countryresult = mysqli_query($con,$sql);
-    while($row = mysqli_fetch_assoc($countryresult)){
-        $countid = $row['countryId'];
-    }
-    $sql = "select * from player where playerId in (select playerId from userPlayers 
-    where userId = (select userId from user where username = '$username')) and playercountry = '$countid'";
+    // //Specific country;
+    // $country = $_POST['country'];
+    // $sql = "select * from country where countryname = '$country'";
+    // $countryresult = mysqli_query($con,$sql);
+    // while($row = mysqli_fetch_assoc($countryresult)){
+    //     $countid = $row['countryId'];
+    // }
+    // $sql = "select * from player where playerId in (select playerId from userPlayers 
+    // where userId = (select userId from user where username = '$username')) and playercountry = '$countid'";
     
-    //Sort based on country
-    $sql = "select * from player where playerId in (select playerId from userPlayers 
-    where userId = (select userId from user where username = '$username')) order by playercountry";
-    $result = mysqli_query($con,$sql);
+    // //Sort based on country
+    // $sql = "select * from player where playerId in (select playerId from userPlayers 
+    // where userId = (select userId from user where username = '$username')) order by playercountry";
+    // $result = mysqli_query($con,$sql);
     
-    //Only shooter display
-    $sql = "select * from player where playerId in (select playerId from userPlayers 
-    where userId = (select userId from user where username = '$username')) and type = 1";
-    $result = mysqli_query($con,$sql);
+    // //Only shooter display
+    // $sql = "select * from player where playerId in (select playerId from userPlayers 
+    // where userId = (select userId from user where username = '$username')) and type = 1";
+    // $result = mysqli_query($con,$sql);
     
-    //Only GoalKeeper
-    $sql = "select * from player where playerId in (select playerId from userPlayers 
-    where userId = (select userId from user where username = '$username')) and type = 2";
-    $result = mysqli_query($con,$sql);
+    // //Only GoalKeeper
+    // $sql = "select * from player where playerId in (select playerId from userPlayers 
+    // where userId = (select userId from user where username = '$username')) and type = 2";
+    // $result = mysqli_query($con,$sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,9 +37,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Display List</title>
 
+    <style>
+        table,th,td{
+            border : 1px solid;
+        }
+    </style>
+
 </head>
 <body>
     <?php
+        require_once('index.php');
+        require_once('authentication.php');
+        if(!$_SESSION['username'])
+        {
+            header('location:login.php');
+        }
+        $username = $_SESSION['username'];
         $sql = "select * from userTeams where userId = (select userId from user where username = '$username')";
         $result = mysqli_query($con,$sql);
         while($id = mysqli_fetch_assoc($result)){
@@ -79,7 +85,7 @@
         $sql = "SELECT * FROM player WHERE playerId IN (" . implode(',', $idarray) . ")";
 	    $result = mysqli_query($con,$sql);
     ?>
-    <table>
+    <table class="player" id="teams">
         <tr>
             <th>Slno</th>
             <th>Player</th>
@@ -100,6 +106,11 @@
             $slno++;}
         ?>
     </table>
+    <a href="removeFromTeam.php">
+            <button>
+                Remove
+            </button>
+    </a>
 
     <?php            
     
@@ -116,10 +127,10 @@
     while($idrow = mysqli_fetch_assoc($idresult)){
         array_push($id,$idrow['playerId']);
     }
-        $sql = "SELECT * FROM player WHERE playerId IN (" . implode(',', $idarray) . ")";
+        $sql = "SELECT * FROM player WHERE playerId IN (" . implode(',', $id) . ")";
         $result = mysqli_query($con,$sql);    
     ?>
-    <table>
+    <table class="player" id="user">
         <tr>
             <th>Slno</th>
             <th>Player</th>
@@ -141,5 +152,10 @@
         ?>
     </table>
 
+    <a href="selectPlayer.php">
+            <button>
+                Insert
+            </button>
+    </a>
 </body>
 </html>

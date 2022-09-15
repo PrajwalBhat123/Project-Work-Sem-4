@@ -4,14 +4,14 @@
  $username = 'root';
  $password = '';
  $dbname = 'ProjectWork';
- $tablename = array('user','country','player','coach','CPUTeams','Userteams','UserPlayers','type');
+ $tablename = array('user','country','player','coach','CPUTeams','Userteams','UserPlayers','type','matches','scorecard');
 
  
     $con = mysqli_connect($servername,$username,$password);
 
     if(!$con){
         die('Connection Falied:::'.mysql_error());
-     }
+    }
     // else{
     //     echo 'Conection successful';
     // }
@@ -70,8 +70,10 @@
         (coachId int not null auto_increment primary key,
          coachname varchar(20),
          coachrating real,
+         coachscore int,
          coachcountry int,
          coachcost real,
+         coachimage varchar(20),
          foreign key (coachcountry) references country(countryId));";
 
         if(!mysqli_query($con,$sql)){
@@ -125,7 +127,34 @@
             echo "Error creating :: ".mysqli_error($con);
         }
 
+        //match table
+        $sql = "CREATE TABLE IF NOT EXISTS $tablename[8] 
+        (matchId int not null auto_increment primary key,
+         userId int,
+         teamId int,
+         GamePlayed date,
+         result int,
+         foreign key (userId) references user(userId),
+         foreign key (teamId) references cputeams(teamId));";
+
+        if(!mysqli_query($con,$sql)){
+            echo "Error creating :: ".mysqli_error($con);
+        }
+
+        //scorecard table
+        $sql = "CREATE TABLE IF NOT EXISTS $tablename[9] 
+        (cardId int not null auto_increment primary key,
+         matchId int,
+         userGoals int,
+         CPUGoals int,
+         foreign key (matchId) references matches(matchId));";
         
+        if(!mysqli_query($con,$sql)){
+            echo "Error creating :: ".mysqli_error($con);
+        }
+
+
+
 
     }
      else{

@@ -1,0 +1,17 @@
+body{
+    background-image: url("C:/xampp/htdocs/images/background.jpg");
+    background-size: cover;
+}
+.form-group{
+    position: absolute;
+    top: 26vh;
+}
+
+.input-field
+{
+    background: black;
+    display: flex;
+    margin-left: 34vw;
+    width: 25vw;
+    margin-top: 2vh;
+}

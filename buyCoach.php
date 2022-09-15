@@ -7,6 +7,9 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link href="buy_card.css" rel="stylesheet" type="text/css"/>
+	<link href="buy.css" rel="stylesheet" type="text/css"/>
 
 </head>
 <body>
@@ -108,6 +111,7 @@
                             <!-- <img src="la.jpg" alt="Los Angeles"> -->
                             <div class="card p-3 py-4">
 				                <div class="text-center"> 
+                                    <img src="images/Coaches/"<?php echo $row['coachname'];?>/>
 					                <h3 class="mt-2"><?php echo $row['coachname'] ?></h3>
 					                <?php 
             							$sql = "select countryname from country where countryId = '$row[coachcountry]'";
@@ -128,6 +132,10 @@
 							                <h5>Rating</h5>
 							                <span class="num"><?php echo $row['coachrating']?></span> 
 						                </div>
+						                <div class="col-md-4">
+							                <h5>Score</h5>
+							                <span class="num"><?php echo $row['coachscore']?></span> 
+						                </div>
 					                </div>                   
 						            <hr class="line">
 					                <div class="profile mt-5">
@@ -144,10 +152,14 @@
 
 <!-- Left and right controls -->
                     <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                        <span class="carousel-control-prev-icon">Prev</span>
+                        <span class="carousel-control-prev-icon">
+                            <button> <-- </button>
+                        </span>
                     </a>
                     <a class="carousel-control-next" href="#demo" data-slide="next">
-                        <span class="carousel-control-next-icon"></span>
+                        <span class="carousel-control-next-icon">
+                            <button> <-- </button>
+                        </span>
                     </a>
                 </div>
             </div>

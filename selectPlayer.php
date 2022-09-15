@@ -7,7 +7,13 @@
     <title>Select Player</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	
+    <link href="buy_card.css" rel="stylesheet" type="text/css"/>
+	<link href="buy.css" rel="stylesheet" type="text/css"/>
+    <style>         
+      
+    </style>
 </head>
 <body>    
 <?php
@@ -34,15 +40,15 @@
         //echo $_POST['selectPlayer'];
         $pid = $_POST['selectPlayer'];
         
-        $sql = "select * from players where playerId = $pid";
+        $sql = "select * from player where playerId = $pid";
         $tresult = mysqli_query($con,$sql);
         while($row = mysqli_fetch_assoc($tresult)){
-            $type = $row['type'];    
+            $type = $row['playertype'];    
         }
-        $sql = "select * from userTeams where userId = (select userId from user where username = $username)";
+        $sql = "select * from userTeams where userId = (select userId from user where username = '$username')";
         $idresult = mysqli_query($con,$sql);
         
-        $sql = "select * from userTeams where userId = (select userId from user where username = $username)";
+        $sql = "select * from userTeams where userId = (select userId from user where username = '$username')";
         $tresult = mysqli_query($con,$sql);
         while($row = mysqli_fetch_assoc($tresult)){
             $sh1 = $row['shooter1'];
@@ -61,13 +67,13 @@
         $goalie = 0;
         if($type == 1){
             if(is_null($sh1)){
-                $sql = "insert into userTeams (shooter1) values($pid) where userId = (select userId from user where username = $username)";
+                $sql = "update userTeams set shooter1 = $pid where userId = (select userId from user where username = '$username')";
                 $updateresult = mysqli_query($con,$sql);
             }else if(is_null($sh2)){
-                $sql = "insert into userTeams (shooter2) values($pid) where userId = (select userId from user where username = $username)";
+                $sql = "update userTeams set shooter2 = $pid where userId = (select userId from user where username = '$username')";
                 $updateresult = mysqli_query($con,$sql);
             }else if(is_null($sh3)){
-                $sql = "insert into userTeams (shooter3) values($pid) where userId = (select userId from user where username = $username)";
+                $sql = "update userteams set shooter3 = $pid where userId = (select userId from user where username = '$username')";
                 $updateresult = mysqli_query($con,$sql);
             }else{
                 echo "<script>alert('Shooters are filled in !!');</script>";
@@ -78,7 +84,7 @@
             }
         }else if($type == 2){
             if(is_null($gk)){
-                $sql = "insert into userTeams (goalie) values($pid) where userId = (select userId from user where username = $username)";
+                $sql = "update userTeams set goalie = $pid where userId = (select userId from user where username = '$username')";
                 $updateresult = mysqli_query($con,$sql);
             }else{
                 echo "<script>alert('Goaile is filled in !!');</script>";
@@ -88,7 +94,7 @@
                 header('location:removFromTeam.php');
             }
         }
-        $unset($_POST['selectPlayer']);
+        unset($_POST['selectPlayer']);
     }
     // if(isset($_POST['upload'])){
     //     $image = $_FILES['image']['name'];
@@ -178,7 +184,7 @@
 					                </div>                   
 						            <hr class="line">
 					                <div class="profile mt-5">
-						                <form action="test.php" method="post">
+						                <form action="selectPlayer.php" method="post">
                                             <button class="profile_button px-5" id = "<?echo $row['$playerid']?>">Select Player</button>
                                             <input type='hidden' name='selectPlayer' value="<?php echo $row['playerId'];?>">
                                         </form>

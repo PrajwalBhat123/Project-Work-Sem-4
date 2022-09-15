@@ -13,6 +13,12 @@
     <link rel="stylesheet" href="homestyle.css">
     <script src = "script.js\"></script>
     <title> Cty: Home Page </title>
+    <style>         
+      body {
+        background-image: url("images/backimage.jpg");
+        background-size: cover;
+      }
+    </style>
 </head>
 <body>
 <?php 
@@ -49,7 +55,7 @@
       <div class = "child"><?php echo $wallet; ?></div>
     </a>
 
-    <a href="">
+    <a href="viewPlayers.php">
         <div class = "child">View Players</div>
     </a>
   
@@ -58,10 +64,9 @@
     </a>
   
   </div>
-  <div class="logo"><img src="Ctylogo.png"></div>
-
+  
     <div class="flex-container">
-        <a href = "Game Page">
+        <a href = "index.html">
         <div class="flex-child magenta">
           <h1>Play Game</h1>
         </div>
@@ -76,7 +81,7 @@
             <h1>Sell Player</h1>
         </div>
       </a>
-      <a href = "selectPlayer.php">
+      <a href = "displayPlayer.php">
         <div class="flex-child blue">
           <h1>Select Team Players</h1>
         </div>

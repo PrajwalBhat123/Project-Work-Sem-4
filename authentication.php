@@ -20,7 +20,7 @@
 
     if($count == 1){
         $_SESSION['username'] = $username;
-        header('location:test.php');
+        header('location:homeindex.php');
     }   // echo "Login Successful";
     //else{
     //     echo 'Something went wrong!! Try again';

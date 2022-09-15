@@ -9,7 +9,12 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
     <link rel="stylesheet" href="style.css">
-         
+    <style>         
+      body {
+        background-image: url("images/loginimage.jpg");
+        background-size: cover;
+      }
+    </style>
 </head>
 <body>
     <?php
