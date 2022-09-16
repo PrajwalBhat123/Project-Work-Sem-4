@@ -5,7 +5,40 @@ let user = 1;
 let usergoals = Array(5);
 let cpugoals = Array(5);
 
+let sh1 = document.getElementById('shooter1');
+let sh2 = document.getElementById('shooter2');
+let sh3 = document.getElementById('shooter3');
 console.log(count);
+
+function selectshooter1(){
+    sh1.style.backgroundColor = "blue";
+    sh1.style.transition = "1s";
+    setInterval(function(){
+        sh1.style.backgroundColor = "red";
+    },2000);
+    sh2.style.transition = 0;
+    sh3.style.transition = 0;
+}
+
+function selectshooter2(){
+    sh2.style.backgroundColor = "blue";
+    sh2.style.transition = "1s";
+    setInterval(function(){
+        sh2.style.backgroundColor = "red";
+    },2000);
+    sh1.style.transition = 0;
+    sh3.style.transition = 0;
+}
+
+function selectshooter3(){
+    sh3.style.backgroundColor = "blue";
+    sh3.style.transition = "1s";
+    setInterval(function(){
+        sh3.style.backgroundColor = "red";
+    },2000);
+    sh2.style.transition = 0;
+    sh1.style.transition = 0;
+}
 
 function keepCount(){
     if(gamecount == 0){

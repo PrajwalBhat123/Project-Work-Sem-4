@@ -4,210 +4,288 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Page</title>
-
+    
+    <link rel="stylesheet" type="text/css" href="gamestyle.css">
     <link href="buy_card.css" rel="stylesheet" type="text/css"/>
-	<link href="buy.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>FOOTBALL GAME</title>
+    <style>
+        .goalkeeper{
+            margin-bottom : 20px;
+            margin-right : 20px;
+        }
+    </style>
 </head>
 <body>
     <?php
-        include 'index.php';
-        require_once('authentication.php');
-        
-        if(!$_SESSION['username'])
-        {
+        require 'teamselction.php';
+        require 'index.php';
+        require_once 'authentication.php';
+        if(isset($_SESSION['team'])){
+            $teamId = $_SESSION['team'];
+        }
+        $_SESSION['newteam'] = $teamId;
+        if(!$_SESSION['username']){
             header('location:login.php');
         }
         $username = $_SESSION['username'];
+
+        $sql = "select * from userteams where userId = (select userId from user where username = '$username')";
+        $result = mysqli_query($con,$sql);
         
-        $sql = "select * from userTeams where userId = (select userId from user where username = '$username')";
-        $tresult = mysqli_query($con,$sql);
-        $sh1='1';
-        $sh2='2';
-        $sh3='3';
-        $gk='4';
-    
-        while($player = mysqli_fetch_assoc($tresult)){
-            $sh1 = $player['shooter1'];
-            $sh2 = $player['shooter2'];
-            $sh3 = $player['shooter3'];
-            $gk = $player['goalie'];
+        while($row = mysqli_fetch_assoc($result)){
+            $sh1 = $row['shooter1'];
+            $sh2 = $row['shooter2'];
+            $sh3 = $row['shooter3'];
         }
 
-        echo $sh1,$sh2,$sh3,$gk;
-        $sql = "select * from cputeams where teamId = 1";
+        $sql = "select * from player where playerId = '$sh1'";
+        $result = mysqli_query($con,$sql);
+        while($row = mysqli_fetch_assoc($result)){
+            $name1 = $row['playername'];
+            $cost1 = $row['playercost'];
+            $rating1 = $row['playerrating'];
+            $score1 = $row['playerscore'];
+            $countryId1 = $row['playercountry'];
+            $image1 = $row['playerimage'];
+        }
+
+        $sql = "select * from country where countryId = '$countryId1'";
+        $result = mysqli_query($con,$sql);
+        while($row = mysqli_fetch_assoc($result)){
+            $country1 = $row['countryname'];
+        }
+
+        $sql = "select * from player where playerId = '$sh2'";
+        $result = mysqli_query($con,$sql);
+        while($row = mysqli_fetch_assoc($result)){
+            $name2 = $row['playername'];
+            $cost2 = $row['playercost'];
+            $rating2 = $row['playerrating'];
+            $score2 = $row['playerscore'];
+            $countryId2 = $row['playercountry'];
+            $image2 = $row['playerimage'];
+        }
+
+        $sql = "select * from country where countryId = '$countryId2'";
+        $result = mysqli_query($con,$sql);
+        while($row = mysqli_fetch_assoc($result)){
+            $country2 = $row['countryname'];
+        }
+
+        $sql = "select * from player where playerId = '$sh3'";
+        $result = mysqli_query($con,$sql);
+        while($row = mysqli_fetch_assoc($result)){
+            $name3 = $row['playername'];
+            $cost3 = $row['playercost'];
+            $rating3 = $row['playerrating'];
+            $score3 = $row['playerscore'];
+            $countryId3 = $row['playercountry'];
+            $image3 = $row['playerimage'];
+        }
+
+        $sql = "select * from country where countryId = '$countryId3'";
+        $result = mysqli_query($con,$sql);
+        while($row = mysqli_fetch_assoc($result)){
+            $country3 = $row['countryname'];
+        }
+
+        echo $teamId;
+        $sql = "select * from cputeams where teamId = '$teamId'";
+        $result = mysqli_query($con,$sql);
+        
+        while($row = mysqli_fetch_assoc($result)){
+            $gk = $row['goalie'];
+        }
+
+        $sql = "select * from player where playerId = '$gk'";
         $result = mysqli_query($con,$sql);
 
-        while($player = mysqli_fetch_assoc($result)){
-            $cpush1 = $player['shooter1'];
-            $cpush2 = $player['shooter2'];
-            $cpush3 = $player['shooter3'];
-            $cpugk = $player['goalie'];
+        while($row = mysqli_fetch_assoc($result)){
+            $gkname = $row['playername'];
+            $gkcost = $row['playercost'];
+            $gkrating = $row['playerrating'];
+            $gkscore = $row['playerscore'];
+            $gkcountryId = $row['playercountry'];
+            $gkimage = $row['playerimage'];
+            //echo $gkname,$gkcost,$gkrating,$gkscore;
         }
-        echo "CPU";
-        echo $cpush1,$cpush2,$cpush3,$cpugk;
+        $sql = "select * from country where countryId = '$gkcountryId'";
+        $result = mysqli_query($con,$sql);
+        while($row = mysqli_fetch_assoc($result)){
+            $gkcountry = $row['countryname'];
+        }
         
-        function getPlayerCard(int $player){ 
-            include 'index.php';
-            ////echo $player;
-            $sql = "select * from player where playerId = '$player'";
-            $result = mysqli_query($con,$sql);
-            while ($row = mysqli_fetch_assoc($result)){
-                $image = $row['playerimage'];
-                $name = $row['playername'];
-                $countryid = $row['playercountry'];
-                $type = $row['playertype'];
-                $cost = $row['playercost'];
-                $rating = $row['playerrating'];
-                $score = $row['playerscore'];
-            }
-                //echo $name,$rating,$image;    
-        
-            $sql = "select type from type where typeId = '$type'";
-            $typeresult = mysqli_query($con,$sql);
-            while($id = mysqli_fetch_assoc($typeresult)){
-                $typename = $id['type'];
-            }
-            $sql = "select countryname from country where countryId = '$countryid'";
-            $countryresult = mysqli_query($con,$sql);
-            while($country = mysqli_fetch_assoc($countryresult)){
-                $countryname = $country['countryname'];
-            }
-            //echo $typename,$countryname;
 
-            echo "
-                <div class='card p-3 py-4'>
-                    <div class='text-center'>
+        if(isset($_POST['shooter1'])){
+            // getPlayerCard($sh1);
+             $rating = $rating1;
+             $score = $score1;
+             unset($_POST['shooter1']);
+         }
+         if(isset($_POST['shooter2'])){
+            // getPlayerCard($sh2);
+            $rating = $rating1;
+            $score = $score1;
+            unset($_POST['shooter2']);
+         }
+         if(!isset($_POST['shooter3'])){
+             //getPlayerCard($sh3);
+             $rating = $rating1;
+             $score = $score1;
+             unset($_POST['shooter3']);
+         }
+ 
+    ?> 
+    <img class ="ground" src="https://us.123rf.com/450wm/sarawuth702/sarawuth7021604/sarawuth702160400005/55087377-soccer-goal.jpg?ver=6" alt="">
+    <img src="goalkeeper.png" class="i2" id = "b2" alt="">
+    <button id = "b1" class = "ball" onclick="goal()"> <img class = "i1" src="football.png" alt=""> </button>
 
-                        <img src='images\<?php echo $image;?> alt='Player image' width='50' height='50'></img>            
-                        <h3 class='mt-2'>$name</h3>
-                        <span class='mt-1 clearfix'>$typename</span>
-
-                        <span class='mt-1 clearfix'>$countryname</span>
-                        <div class='row mt-3 mb-3'>
-                            <div class='col-md-4'>
-                                <h5>Cost</h5>
-                                <span class='num'>$cost</span>
-                            </div>
-                            <div class='col-md-4'>
-                                <h5>Rating</h5>
-                                <span class='num'>$rating</span> 
-                            </div>
-                            <div class='col-md-4'>
-                                <h5>Score</h5>
-                                <span class='num'>$score</span>
-                            </div>
-                        </div>                   
-                        <hr class='line'>
-                        <div class='profile mt-5'>
-                            <button class='profile_button px-5'>Select Player</button>
-                            <input type='hidden' name='buyPlayer' value='$player'>	
-                        </div>   
-                    </div>
-                </div>
-                ";
-        }
-        $usergoal = array();
-        $cpugoal = array();
-        function getGoal(int $shooter,$goalie,$dir){
-            include 'index.php';
-            //echo $player;
-            $sql = "select * from player where playerId in ('$shooter','$goalie')";
-            $result = mysqli_query($con,$sql);
-            while ($row = mysqli_fetch_assoc($result)){
-                $type = $row['playertype'];
-                if($type == 1){
-                    $srating = $row['playerrating'];
-                    $sscore = $row['playerscore'];    
-                }else if($type == 2){
-                    $grating = $row['playerrating'];
-                    $gscore = $row['playerscore'];
-                }
-            }
-            if($srating > $grating){
-                if($srating - $grating >=50){
-                    echo "
-                    <script>
-                    
-                    </script>"
-                    //It is a goal then push 1
-                    array_push($usergoal,1);
-                }
-            }
-        }
-        $count = 5;
-        $user = 1;
-        if(isset($_POST['play'])){
-            unset($_POST['play']);
-            if($user){  
-                if($count == 1){
-                    getPlayerCard($sh1);
-                    $user = 0;
-                    $count = 5;
-                }
-                if($count == 2){
-                    getPlayerCard($sh2);
-                    $count--;
-                }
-                if($count == 3){
-                    getPlayerCard($sh3);
-                    $count--;
-                }
-                if($count == 4){
-                    getPlayerCard($sh2);
-                    $count--;
-                }
-                if($count == 5){
-                    getPlayerCard($sh1);
-                    $count--;
-                }
-            }else{
-                echo "<script>alert('Defend your score!!');</script>";
-                
-                if(!$user){
-                    if($count == 1){
-                        getPlayerCard($cpush1);
-                        $count++;
-                    }
-                    if($count == 2){
-                        getPlayerCard($cpush2);
-                        $count++;
-                    }
-                    if($count == 3){
-                        getPlayerCard($cpush3);
-                        $count++;
-                    }
-                    if($count == 4){
-                        getPlayerCard($cpush1);
-                        $count++;
-                    }
-                    if($count == 5){
-                        getPlayerCard($cpush2);
-                        $count = 1;
-                        $user = 1;
-                    }
-                }else{
-                    $usergoalcount = 0;
-                    $cpugoalcount = 0;
-                    echo "<script>alert('Match Over');</script>";
-                    for($i=0;$i<5;$i++){
-                        if($usergoal[$i] == 1){
-                            $usergoalcount++;    
-                        }
-                        if($cpugoal[$i] == 1){
-                            $cpugoalcount++;    
-                        }
-                    }
-                }
-            }
-        }
-
-    ?>
-    <div class="Playbutton">
-    <form action="gamePage.php" method="post">
-        <button class="profile_button px-5">Play</button>
-        <input type='hidden' name='play'>
-    </form>
+    <div class = "controlgoal">
+        <button class = "control" onclick ="LeftTop()">Left-Top</button>
+        <button class = "control" onclick ="CenterTop()">Center-Top</button>
+        <button class = "control" onclick ="RightTop()">Right-Top</button><br>
+        <button class = "control" onclick ="LeftMiddle()">Left-Middle</button>
+        <button class = "control" onclick ="CenterMiddle()">Center-Middle</button>
+        <button class = "control" onclick ="RightMiddle()">Right-Middle</button><br>
+        <button class = "control" onclick ="LeftBottom()">Left-Bottom</button>
+        <button class = "control" onclick ="CenterBottom()">Center-Bottom</button>
+        <button class = "control" onclick ="RightBottom()">Right-Bottom</button><br>
+        <h1>SCORE BOARD : <span id="Score">0</span></h1>
+        <form action="gamePage.php" method="post">
+            <button class="profile_button px-5" id = "<?echo $sh1?>" onClick = "selectshooter1()"><?php echo $name1;?></button>
+            <input type='hidden' name='shooter1' value="<?php echo $sh1;?>">
+            <button class="profile_button px-5" id = "<?echo $sh2?>" onClick = "selectshooter2()"><?php echo $name2;?></button>
+            <input type='hidden' name='shooter2' value="<?php echo $sh2;?>">
+            <button class="profile_button px-5" id = "<?echo $sh3?>" onClick = "selectshooter3()"><?php echo $name3;?></button>
+            <input type='hidden' name='shooter3' value="<?php echo $sh3;?>">
+        </form>
     </div>
+    <div class = "right">
+        <h1 id="GoalDone1"></h1>
+    </div>
+    <div class = "left">
+        <h1 id="GoalDone2"></h1>
+    </div>
+
+    <?php
+    ?>
+    
+    <div class='scorer' id='shooter1'>
+        <div class='container d-flex justify-content-center'>
+            <div class='card p-3 py-4'>
+                <div class='text-center'>
+                    <img src='images/players/<?php echo $image1;?>' width="20px" height="30px" /> 
+                    <h3 class='mt-2'> <?php echo $name1; ?> </h3>
+                    <span class='mt-1 clearfix'> Shooter </span>
+                    <span class='mt-1 clearfix'> <?php echo $country1; ?> </span>
+                    <div class='row mt-3 mb-3'>
+                        <div class='col-md-4'>
+                            <h5>Cost</h5>
+                            <span class='num'><?php echo $cost1; ?></span>
+                        </div>
+                        <div class='col-md-4'>
+                            <h5>Rating</h5>
+                            <span class='num'><?php echo $rating1; ?></span>
+                        </div>
+                        <div class='col-md-4'>
+                            <h5>Score</h5>
+                            <span class='num'><?php echo $score1; ?> </span>
+                        </div>
+                    </div>
+                    <hr class='line'>  
+                </div>
+            </div>           
+        </div> 
+    </div>
+    
+    
+    <div class='scorer' id='shooter2'>
+        <div class='container d-flex justify-content-center'>
+            <div class='card p-3 py-4'>
+                <div class='text-center'>
+                    <img src='images/players/<?php echo $image2;?>' width="20px" height="30px"/> 
+                    <h3 class='mt-2'> <?php echo $name2; ?> </h3>
+                    <span class='mt-1 clearfix'> Shooter </span>
+                    <span class='mt-1 clearfix'> <?php echo $country2; ?> </span>
+                    <div class='row mt-3 mb-3'>
+                        <div class='col-md-4'>
+                            <h5>Cost</h5>
+                            <span class='num'><?php echo $cost2; ?></span>
+                        </div>
+                        <div class='col-md-4'>
+                            <h5>Rating</h5>
+                            <span class='num'><?php echo $rating2; ?></span>
+                        </div>
+                        <div class='col-md-4'>
+                            <h5>Score</h5>
+                            <span class='num'><?php echo $score2; ?> </span>
+                        </div>
+                    </div>
+                    <hr class='line'>  
+                </div>
+            </div>           
+        </div> 
+    </div>
+    
+    <div class='scorer' id='shooter3'>
+        <div class='container d-flex justify-content-center'>
+            <div class='card p-3 py-4'>
+                <div class='text-center'>
+                    <img src='images/players/<?php echo $image3;?>' width="20px" height="30px"/> 
+                    <h3 class='mt-2'> <?php echo $name3; ?> </h3>
+                    <span class='mt-1 clearfix'> Shooter </span>
+                    <span class='mt-1 clearfix'> <?php echo $country3; ?> </span>
+                    <div class='row mt-3 mb-3'>
+                        <div class='col-md-4'>
+                            <h5>Cost</h5>
+                            <span class='num'><?php echo $cost3; ?></span>
+                        </div>
+                        <div class='col-md-4'>
+                            <h5>Rating</h5>
+                            <span class='num'><?php echo $rating3; ?></span>
+                        </div>
+                        <div class='col-md-4'>
+                            <h5>Score</h5>
+                            <span class='num'><?php echo $score3; ?> </span>
+                        </div>
+                    </div>
+                    <hr class='line'>  
+                </div>
+            </div>           
+        </div> 
+    </div>
+       
+    <div class="goalkeeper">
+        <div class="container d-flex justify-content-center">
+            <div class="card p-3 py-4">
+                <div class="text-center"> 
+                    <img src="images/players/<?php echo $gkimage;?>" />
+                    <h3 class="mt-2"><?php echo $gkname;?></h3>
+                    <span class="mt-1 clearfix">GoalKeeper</span>
+                    <span class="mt-1 clearfix"><?php echo $gkcountry;?></span>
+                    <div class="row mt-3 mb-3">
+                        <div class="col-md-4">
+                            <h5>Cost</h5>
+                            <span class="num"><?php echo $gkcost;?></span>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Rating</h5>
+                            <span class="num"><?php echo $gkrating;?></span>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Score</h5>
+                            <span class="num"><?php echo $gkscore;?></span>
+                        </div>
+                    </div>
+                    <hr class="line">      
+                </div>
+            </div>   
+        </div> 
+    </div>
+    
+    <script src="gamescript.js"></script>
+
 </body>
-<?php?>
+</html>
