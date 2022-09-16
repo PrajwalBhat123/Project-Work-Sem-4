@@ -11,6 +11,7 @@
         $username = $_SESSION['username'];
         // echo $_POST['team'];
         $teamId = $_POST['team'];
+        $_SESSION['team'] = $teamId;
         $sql = "select * from user where username = '$username'";
         $iresult = mysqli_query($con,$sql);
     
@@ -25,10 +26,9 @@
             $team = $row['teamname'];
             $gk = $row['goalie'];
         }
-        $checkvalue = $difficulty*100;
-        if($wallet > $checkvalue){
-
-            $newWallet = $wallet - $checkvalue;
+        if($wallet > $difficulty*100){
+            $newWallet = $wallet - $difficulty*100;
+            echo $newWallet;
             $sql = "update user set wallet = '$newWallet' where userId = (select userId from user where username = '$username')";
             $result = mysqli_query($con,$sql);
 
@@ -37,6 +37,9 @@
             echo "<script>alert('Less amount');</script>";
         }
         unset($_POST['team']);
+    }
+    if(isset($_SESSION['team'])){
+        header("location:gamepage.php");
     }
 
     $sql = "select * from cputeams";
@@ -59,7 +62,7 @@
         <td><?php echo $row['teamname'];?></td>
         <td><?php echo $row['teamdifficulty'];?></td>
         <td>
-            <form action="gamepage.php" method="post">
+            <form action="teamselction.php" method="post">
                 <button class="profile_button px-5" id = "<?echo $row['teamId']?>">Select Team</button>
                 <input type='hidden' name='team' value="<?php echo $row['teamId'];?>">
             </form>        

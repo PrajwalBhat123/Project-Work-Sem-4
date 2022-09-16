@@ -66,7 +66,7 @@
   </div>
   
     <div class="flex-container">
-        <a href = "index.html">
+        <a href = "teamselction.php">
         <div class="flex-child magenta">
           <h1>Play Game</h1>
         </div>
