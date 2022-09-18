@@ -1,7 +1,7 @@
 let count = 0;
 let g1 = 0;
 let gamecount = 5;
-let user = 1;
+let userinput;
 let usergoals = Array(5);
 let cpugoals = Array(5);
 
@@ -93,10 +93,44 @@ function goal()
     gamecount--;
 }
 
-function LeftTop(){
-    keepCount();
+function checkscore(pscore,gscore){
+    if(pscore > gscore){
+        let pcheck = pscore - gscore;
+        if(pcheck > 50){
 
+        }else if(pcheck > 30){
+
+        }
+        else if(pcheck > 10){
+
+        }else{
+
+        }
+    }
+    if(pscore < gscore){
+        let gcheck = gscore - pscore;
+        if(gcheck > 50){
+
+        }else if(gcheck > 30){
+
+        }
+        else if(gcheck > 10){
+
+        }else{
+            
+        }
+    }
+    if(pscore === gscore){
+        
+    }
+
+}
+
+function LeftTop(rate,gkrate){
+    keepCount();
+    console.log(rate,gkrate);
     document.getElementById('b1').style.animation="left0 1s";
+    userinput = 1;
     goalkeeper();
     if(g1!=1)
     {
@@ -112,10 +146,12 @@ function LeftTop(){
         document.getElementById('GoalDone2').innerHTML = "Saved!!!!!";
     }
 }
+
 function RightTop(){
     keepCount();
     
     document.getElementById('b1').style.animation="right0 1s";
+    userinput = 5;
     goalkeeper();
     if(g1!=5)
     {
@@ -130,9 +166,10 @@ function RightTop(){
         document.getElementById('GoalDone2').innerHTML = "Saved!!!!!";
     }
 }
+
 function CenterTop(){
     keepCount();
-
+    userinput = 4;
     document.getElementById('b1').style.animation="center0 1s";
     goalkeeper();
     if(g1!=4)
@@ -149,9 +186,11 @@ function CenterTop(){
         document.getElementById('GoalDone2').innerHTML = "Saved!!!!!";
     }
 }
+
 function LeftMiddle(){
     keepCount();
-
+    userinput = 2;
+    
     document.getElementById('b1').style.animation="left2 1s";
     goalkeeper();
     if(g1!=2)
@@ -171,6 +210,7 @@ function LeftMiddle(){
 
 function RightMiddle(){
     keepCount();
+    userinput = 6;
     
     document.getElementById('b1').style.animation="right2 1s";
     goalkeeper();
@@ -191,6 +231,7 @@ function RightMiddle(){
 
 function CenterMiddle(){
     keepCount();
+    userinput = 4;
     
     document.getElementById('b1').style.animation="center2 1s";
     goalkeeper();
@@ -211,7 +252,8 @@ function CenterMiddle(){
 
 function LeftBottom(){
     keepCount();
-
+    userinput = 3;
+    
     document.getElementById('b1').style.animation="left1 1s";
     goalkeeper();
     if(g1!=3)
@@ -231,6 +273,7 @@ function LeftBottom(){
 
 function RightBottom(){
     keepCount();   
+    userinput = 7;
     
     document.getElementById('b1').style.animation="right1 1s";
     goalkeeper();
@@ -248,8 +291,10 @@ function RightBottom(){
         document.getElementById('GoalDone2').innerHTML = "Saved!!!!!";
     }
 }
+
 function CenterBottom(){
     keepCount();
+    userinput = 4;
     
     document.getElementById('b1').style.animation="center1 1s";
     goalkeeper();
@@ -266,9 +311,4 @@ function CenterBottom(){
         document.getElementById('GoalDone1').innerHTML = "Saved!!!!!";
         document.getElementById('GoalDone2').innerHTML = "Saved!!!!!";
     }
-}
-
-function test(test){
-    
-    console.log(test);
 }
