@@ -1,0 +1,14 @@
+body{
+  background-image: url("C:/xampp/htdocs/images/background.jpg");
+  background-size: cover;
+}
+
+.flex-container {
+    display: flex;
+    background-color: white;
+  }
+  
+.flex-container > div {
+  background-color: #f1f1f1;
+  padding: 20px;
+}
