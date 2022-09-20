@@ -1,6 +1,7 @@
-body{
+.body{
   background-image: url("C:/xampp/htdocs/images/background.jpg");
   background-size: cover;
+  
 }
 
 .flex-container {
@@ -11,4 +12,12 @@ body{
 .flex-container > div {
   background-color: #f1f1f1;
   padding: 20px;
+}
+.carousel-item{
+  padding-top: 100px;
+  padding-left: 400px;
+}
+
+.card p-3 py-4{
+
 }

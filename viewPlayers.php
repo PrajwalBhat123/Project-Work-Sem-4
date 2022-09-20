@@ -1,22 +1,65 @@
+<?php
+    // //Sort based on rating
+    // $sql = "select * from player where playerId in (select playerId from userPlayers 
+    // where userId = (select userId from user where username = '$username')) order by playerrating";
+    // $result = mysqli_query($con,$sql);
+
+    // //Specific country;
+    // $country = $_POST['country'];
+    // $sql = "select * from country where countryname = '$country'";
+    // $countryresult = mysqli_query($con,$sql);
+    // while($row = mysqli_fetch_assoc($countryresult)){
+    //     $countid = $row['countryId'];
+    // }
+    // $sql = "select * from player where playerId in (select playerId from userPlayers 
+    // where userId = (select userId from user where username = '$username')) and playercountry = '$countid'";
+    
+    // //Sort based on country
+    // $sql = "select * from player where playerId in (select playerId from userPlayers 
+    // where userId = (select userId from user where username = '$username')) order by playercountry";
+    // $result = mysqli_query($con,$sql);
+    
+    // //Only shooter display
+    // $sql = "select * from player where playerId in (select playerId from userPlayers 
+    // where userId = (select userId from user where username = '$username')) and type = 1";
+    // $result = mysqli_query($con,$sql);
+    
+    // //Only GoalKeeper
+    // $sql = "select * from player where playerId in (select playerId from userPlayers 
+    // where userId = (select userId from user where username = '$username')) and type = 2";
+    // $result = mysqli_query($con,$sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	
     <title>Display List</title>
 
     <style>
         body{
-            background-image : url('backImage.jpg');
+            background : linear-gradient(90deg,#06beb6 , #48b1bf);
             background-size : cover;
+        }
+        .btn{
+            border: #211f22;
+        }
+        .space{
+            padding: 20px;
+        }
+        .input{
+            padding:5px;
+            width: fit-content;
         }
     </style>
 
 </head>
 <body>
     <?php
-        error_reporting(0);
         require_once('index.php');
         require_once('authentication.php');
         if(!$_SESSION['username'])
@@ -70,22 +113,12 @@
         $result = mysqli_query($con,$sql1);
 
     ?>
-    <form method="post" action="viewPlayers.php">
-            <button name="ratingbutton">
-		    	<span>Rating</span>
-	    	</button>
-            <br>
-            <button name="countrybutton">
-		    	<span>Country</span>
-	    	</button>
-            <br>
-            <input type="text" name="country" placeholder="Ex: Argentina">
-            <input type="submit" value="Ok">
-            <br>
-    </form>     
     
-    <p>Shooter</p>
-    <table class="player" id="teams">
+  <div class="container-fluid">
+  <div class="row ">
+    <div class="col-md-4">
+      <h4>Shooter</h4>
+     <table class="table table-dark" id="teams">
         <tr>
             <th>Slno</th>
             <th>Player</th>
@@ -112,13 +145,17 @@
         <?php
             $slno++;}
         ?>
-    </table>
+     </table>
+        
+   
+   </div>
+    <div class="col-md-4">
     <?php            
         $result = mysqli_query($con,$sql2);    
     ?>
-    <p id="user">GoalKeeper</p>
-    <table class="player" id="usertable">
-        <tr>
+        <h4>GoalKeeper</h4>
+        <table class="table table-dark" id="usertable">
+         <tr>
             <th>Slno</th>
             <th>Player</th>
             <th>Rating</th>
@@ -144,7 +181,39 @@
         <?php
             $slno++;}
         ?>
-    </table>
+     </table>
+    </div>
+ </div>
+  </div>
 
+  
+
+  <form method="post" action="viewPlayers.php">
+  
+    <div class="row">
+        <span class="space"></span>
+    <button name="ratingbutton" class="btn btn-danger" >
+		    	<span>Rating</span>
+	    	</button>
+            <span class="space"> </span>
+            <button name="countrybutton" class="btn btn-danger" >
+		    	<span >Country</span>
+	    	</button>
+    </div>
+
+            <br>
+            <br>
+            <span class="space">
+            <label for="searchBar">Search For a Country</label>
+            <span class="input">
+            <input type="text" name="country" placeholder="Ex: Argentina" id="searchBar" >
+            <button type = "submit" class="btn btn-primary">OK</button>
+            </span>
+            
+            </span>
+            <br>
+    </form>
+
+       
 </body>
 </html>

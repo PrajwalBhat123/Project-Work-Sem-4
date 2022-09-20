@@ -14,9 +14,12 @@
 
     <style>         
       body {
-        background-image: url("images/backimage.jpg");
+        background: url("img/footballbkg.jpg");
         background-size: cover;
+       
       }
+      .card {background:  linear-gradient(145deg, #cc2b5e , #753a88);}
+      .container-fluid {padding-left : 150px; }
     </style>
 </head>
 <body>
@@ -25,8 +28,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <?php
-    error_reporting(0);
+    //error_reporting(0);
     include ('index.php');
+    //echo "hello";
     require_once('authentication.php');
     if(!$_SESSION['username'])
     {
@@ -165,12 +169,14 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-primary">
 		
 	</nav> 
+
+
 	<form method="post" action="test.php">
-            <button name="shooterbutton">
-		    	<span>Shooter</span>
+            <button type = "button "  class="btn btn-danger btn-lg btn-block" name="shooterbutton">
+		    Shooter
 	    	</button>
             <br>
-    		<button name="goaliebutton">
+    		<button type = "button "  class="btn btn-success btn-lg btn-block " name="goaliebutton">
 			    <span>GoalKeeper</span>
 		    </button>
     </form>
@@ -259,12 +265,12 @@
 <!-- Left and right controls -->
                     <a class="carousel-control-prev" href="#demo" data-slide="prev">
                         <span class="carousel-control-prev-icon">
-                            <button> <-- </button>
+                         <button type="button" class="btn btn-dark">Prev</button>
                         </span>
                     </a>
                     <a class="carousel-control-next" href="#demo" data-slide="next">
                         <span class="carousel-control-next-icon">
-                            <button> --> </button>
+                           <button type="button" class="btn btn-dark">Next</button>
                         </span>
                     </a>
                 </div>
