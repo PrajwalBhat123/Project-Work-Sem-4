@@ -35,8 +35,40 @@
     $result = mysqli_query($con,$sql);
 ?>
 
-<table class="player" id="teams">
-    <tr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Selection</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	
+    <style>
+        body{
+            background : linear-gradient(90deg,#06beb6 , #48b1bf);
+            background-size : cover;
+        }
+        .btn{
+            border: #211f22;
+        }
+        .space{
+            padding: 20px;
+        }
+        .input{
+            padding:5px;
+            width: fit-content;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row ">
+    <div class="col-md-4">
+      <table class="table table-dark" id="teams">
+      <tr>
         <th>Slno</th>
         <th>Player</th>
         <th>Difficulty</th>
@@ -66,7 +98,9 @@
         </td>    
     </tr>
     <?php
-        $slno++;}
-    ?>
-    </table>
-    
+            $slno++;}
+        ?>
+        </table>
+    </div>
+    </body>
+</html>

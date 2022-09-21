@@ -4,11 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	
     <title>Display List</title>
 
     <style>
+        body{
+            background : linear-gradient(90deg,#06beb6 , #48b1bf);
+            background-size : cover;
+        }
         table,th,td{
             border : 1px solid;
+        }
+        .space{
+            padding: 20px;
+        }
+        .input{
+            padding:5px;
+            width: fit-content;
         }
     </style>
 
@@ -55,12 +69,17 @@
         $sql = "SELECT * FROM player WHERE playerId IN (" . implode(',', $idarray) . ")";
 	    $result = mysqli_query($con,$sql);
     ?>
-    <table class="player" id="teams">
+   
+    <div class="container-fluid" id='removeteam'>
+  <div class="row ">
+    <div class="col-md-4">
+     <table class="table table-dark">
         <tr>
             <th>Slno</th>
             <th>Player</th>
             <th>Rating</th>
             <th>Score</th>
+            <th>Country</th>
         </tr>
         <?php
         $slno = 1; 
@@ -76,12 +95,13 @@
             $slno++;}
         ?>
     </table>
-    <a href="removeFromTeam.php">
+</div>
+    <a href="removeFromTeam.php" id='remove'>
             <button>
                 Remove
             </button>
     </a>
-
+    
     <?php            
     
     $sql = "select playerId from userPlayers where userId = (select userId from user where username = '$username')";
@@ -100,12 +120,17 @@
         $sql = "SELECT * FROM player WHERE playerId IN (" . implode(',', $id) . ")";
         $result = mysqli_query($con,$sql);    
     ?>
-    <table class="player" id="user">
+    
+    <div class="container-fluid">
+  <div class="row ">
+    <div class="col-md-4">
+     <table class="table table-dark" id="insertteam">
         <tr>
             <th>Slno</th>
             <th>Player</th>
             <th>Rating</th>
             <th>Score</th>
+            <th>Country</th>
         </tr>
         <?php
         $slno = 1; 
@@ -121,8 +146,11 @@
             $slno++;}
         ?>
     </table>
-
-    <a href="selectPlayer.php">
+        
+   
+   </div>
+    
+    <a href="selectPlayer.php" id='insert'>
             <button>
                 Insert
             </button>

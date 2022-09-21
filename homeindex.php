@@ -63,7 +63,7 @@
         <div class = "child">Buy Coach</div>
     </a>
 
-    <a href="form.php">
+    <a href="createPlayer.php">
         <div class = "child">Create Player</div>
     </a>
 
@@ -79,12 +79,12 @@
           <h1>Play Game</h1>
         </div>
        </a>
-       <a href = "test.php">
+       <a href = "buyPlayer.php">
         <div class="flex-child green">
           <h1>Buy Player</h1>
         </div>
       </a>
-      <a href = "pw.php">
+      <a href = "sellPlayer.php">
         <div class="flex-child yellow">
             <h1>Sell Player</h1>
         </div>

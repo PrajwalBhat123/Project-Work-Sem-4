@@ -8,9 +8,18 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link href="buy_card.css" rel="stylesheet" type="text/css"/>
-	<link href="buy.css" rel="stylesheet" type="text/css"/>
+	
+    <link href="buy_card.css" rel="stylesheet">
+	<link href="buy.css" rel="stylesheet">
 
+    <style>         
+      body {
+        background-image: url("images/backimage.jpg");
+        background-size: cover;
+      }
+      .card {background:  linear-gradient(145deg, #cc2b5e , #753a88);}
+      .container-fluid {padding-left : 150px; }
+    </style>
 </head>
 <body>
 <?php
@@ -96,7 +105,7 @@
                         <div class="carousel-item <?php echo $actives ?>">
                             <div class="card p-3 py-4">
 				                <div class="text-center"> 
-                                    <img src="images/Coaches/"<?php echo $row['coachimage'];?>/>
+                                    <img src="images/Coaches/<?php echo $row['coachimage'];?>" width='150px'/>
 					                <h3 class="mt-2"><?php echo $row['coachname'] ?></h3>
 					                <?php 
             							$sql = "select countryname from country where countryId = '$row[coachcountry]'";

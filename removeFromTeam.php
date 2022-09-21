@@ -7,8 +7,18 @@
     <title>Remove Player</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+
+    <link href="buy_card.css" rel="stylesheet">
+	<link href="buy.css" rel="stylesheet">
+
     <style>         
-      
+      body {
+        background-image: url("images/backimage.jpg");
+        background-size: cover;
+      }
+      .card {background:  linear-gradient(145deg, #cc2b5e , #753a88);}
+      .container-fluid {padding-left : 150px; }
+
     </style>
 </head>
 <body>
